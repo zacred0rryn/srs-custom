@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "process_name": [
+        "BitComet",
+        "BitComet.exe",
+        "BitComet_x64.exe",
+        "DownloadService",
+        "DownloadSDKServer.exe",
+        "Folx",
+        "NeatDM",
+        "NeatDM.exe",
+        "NetTransport",
+        "NetTransport.exe",
+        "Thunder",
+        "Thunder.exe",
+        "ThunderVIP.exe",
+        "Transmission",
+        "WebTorrent",
+        "WebTorrent.exe",
+        "aria2",
+        "aria2.exe",
+        "aria2c",
+        "aria2c.exe",
+        "fdm",
+        "fdm.exe",
+        "qBittorrent",
+        "qbittorrent.exe",
+        "qbittorrent-nox",
+        "transmission-daemon.exe",
+        "transmission-qt.exe",
+        "uTorrent",
+        "uTorrent.exe",
+        "xdm",
+        "xdm.exe",
+        "xdman",
+        "xdman.exe"
+      ]
+    }
+  ]
+}

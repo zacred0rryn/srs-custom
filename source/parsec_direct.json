@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "type": "logical",
+      "mode": "and",
+      "rules": [
+        {
+          "type": "logical",
+          "mode": "or",
+          "rules": [
+            {
+              "process_name": [
+                "parsecd",
+                "parsecd.exe"
+              ]
+            },
+            {
+              "package_name": "tv.parsec.client"
+            }
+          ]
+        },
+        {
+          "domain": [
+            "builds.parsecgaming.com",
+            "parsecusercontent.com"
+          ],
+          "domain_suffix": ".parsec.app",
+          "invert": true
+        }
+      ]
+    }
+  ]
+}
