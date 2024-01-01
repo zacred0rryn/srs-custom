@@ -1,0 +1,34 @@
+{
+    "version": 1,
+    "rules": [
+        {
+            "domain": [
+                "y.qq.com",
+                "china-img.soulapp.cn",
+                "img.soulapp.cn"
+            ],
+            "domain_suffix": [
+                ".bilivideo.com",
+                ".akamaized.net",
+                ".hdslb.com",
+                ".szbdyd.com",
+                ".zijieapi.com",
+                ".ecombdapi.com",
+                ".hls3-akm.douyucdn.cn",
+                ".hlsa-akm.douyucdn.cn",
+                ".hls1a-akm.douyucdn.cn",
+                ".hls3a-akm.douyucdn.cn",
+                ".vplay1a.douyucdn.cn",
+                ".vplay3a.douyucdn.cn",
+                ".ws-tct.douyucdn.cn",
+                ".akm-tct.douyucdn.cn",
+                ".tx2play1.douyucdn.cn",
+                ".tc-tct1.douyucdn.cn",
+                ".wsproxy.douyu.com",
+                ".danmuproxy.douyu.com",
+                ".img.douyucdn.cn"
+            ],
+            "ip_cidr": []
+        }
+    ]
+}
