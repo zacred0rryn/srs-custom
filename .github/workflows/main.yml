@@ -1,0 +1,92 @@
+name: Process and Compile Rules
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'source/*.json'
+
+jobs:
+  process-and-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'zacred0rryn/srs-custom'
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/checkout@v2
+        with:
+          repository: 'zacred0rryn/anti-ip-attribution'
+          path: 'ip-attr'
+
+      - uses: actions/checkout@v2
+        with:
+          repository: 'zacred0rryn/srs-custom'
+          ref: 'yaml2json'
+          path: 'y2j'
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install Python dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Convert YAML to JSON and Rename
+        run: |
+          mkdir -p tmp/convert
+          cp ip-attr/generated/* tmp/convert/
+          cp y2j/convert.py tmp/convert/
+          rm -r ip-attr y2j
+          cd tmp/convert && python ./convert.py && cd ../..
+          mkdir -p source
+          cp tmp/convert/*.json source/
+          rm -r tmp
+          ls -l source
+
+      - name: Commit Source Format
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Generated source format srs" -a
+
+      - name: Download and Set up sing-box
+        run: |
+          mkdir -p tmp/compile
+          wget -O sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.8.0-alpha.1/sing-box-1.8.0-alpha.1-linux-amd64.tar.gz
+          tar zxvf sing-box.tar.gz && rm sing-box.tar.gz
+          mv sing-box-1.8.0-alpha.1-linux-amd64/sing-box ./tmp/compile
+          rm -r sing-box-1.8.0-alpha.1-linux-amd64
+
+      - name: Compile with sing-box
+        run: |
+          cp source/* tmp/compile/
+          cd tmp/compile
+          for file in *.json; do
+            ./sing-box rule-set compile "$file" -o "${file%.json}.srs"
+          done
+          cd ../..
+          mkdir -p binary
+          cp tmp/compile/*.srs binary/
+          rm -r tmp
+          ls -l binary
+
+      - name: Commit Binary Format
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Update binary format srs" -a
+
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
