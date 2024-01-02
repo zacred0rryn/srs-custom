@@ -20,6 +20,11 @@ jobs:
 
       - uses: actions/checkout@v2
         with:
+          repository: 'VirgilClyne/GetSomeFries'
+          path: 'httpdns'
+
+      - uses: actions/checkout@v2
+        with:
           repository: 'zacred0rryn/anti-ip-attribution'
           path: 'ip-attr'
 
@@ -38,13 +43,23 @@ jobs:
         run: |
           pip install pyyaml
 
-      - name: Convert YAML to JSON and Rename
+      - name: Rename and Convert YAML to JSON
         run: |
+          # Rename
+          mv httpdns/ruleset/HTTPDNS.Block.yaml httpdns/ruleset/httpdns.yaml
+          cd ip-attr/generated
+          for file in rule-provider-*; do
+            newname="${file/rule-provider-/ip-attribution-}"
+            mv "$file" "$newname"
+          done
+          cd ../..
+          # Conversion
           mkdir -p tmp/convert
-          cp ip-attr/generated/* tmp/convert/
+          cp httpdns/ruleset/httpdns.yaml tmp/convert/ && cp ip-attr/generated/* tmp/convert/
           cp y2j/convert.py tmp/convert/
-          rm -r ip-attr y2j
+          rm -r httpdns ip-attr y2j
           cd tmp/convert && python ./convert.py && cd ../..
+          # Output
           mkdir -p source
           cp tmp/convert/*.json source/
           rm -r tmp
