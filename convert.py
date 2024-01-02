@@ -23,5 +23,5 @@ def convert_yaml_to_json(yaml_file, json_file):
 if __name__ == '__main__':
   for yaml_file in os.listdir('.'):
     if yaml_file.endswith('.yaml'):
-      new_json_file = 'ip-attribution-' + yaml_file.replace('rule-provider-', '').replace('.yaml', '.json')
+      new_json_file = yaml_file.replace('.yaml', '.json')
       convert_yaml_to_json(yaml_file, new_json_file)
