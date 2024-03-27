@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'source/*.json'
+      - 'source'
 
 jobs:
   compile-srs:
