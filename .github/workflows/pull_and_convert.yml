@@ -71,16 +71,30 @@ jobs:
           rm -r tmp
           ls -l source
 
-      - name: Commit Source Format
+      - name: Check and Commit
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          ! git diff --staged --exit-code || exit 0
-          git commit -m "Update source format srs" -a
+          if git diff --cached --exit-code; then
+            echo "changes=false" >> $GITHUB_ENV
+          else
+            echo "changes=true" >> $GITHUB_ENV
+            git commit -m "Update source format srs" -a
+          fi
 
       - name: Push
+        if: env.changes == 'true'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
+
+      - name: Trigger Compilation
+        if: env.changes == 'true'
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/zacred0rryn/srs-custom/actions/workflows/compile.yml/dispatches \
+            -d '{"ref":"main"}'
