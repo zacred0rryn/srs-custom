@@ -26,6 +26,7 @@
                 "frodo.douban.com",
                 "www.douban.com",
                 "api.coolapk.com",
+                "api2.coolapk.com",
                 "api.taptapdada.com",
                 "god.gameyw.netease.com",
                 "ngabbs.com",
@@ -45,7 +46,9 @@
                 "bbs-api.mihoyo.com",
                 "bbs-api.miyoushe.com",
                 "api.xiaoheihe.cn",
-                "zonai.skland.com"
+                "zonai.skland.com",
+                "druidv6.if.qidian.com",
+                "ptlogin6.qidian.com"
             ],
             "domain_suffix": [
                 ".biliapi.net",
