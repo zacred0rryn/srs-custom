@@ -2,7 +2,12 @@ name: Compile SRS
 
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - main
+    paths:
+      - 'source/**'
+      - '.github/**'
 jobs:
   compile-srs:
     runs-on: ubuntu-latest
@@ -28,20 +33,25 @@ jobs:
           for file in *.json; do
             ./sing-box rule-set compile "$file" -o "${file%.json}.srs"
           done
-          cd ../..
-          rm -r binary && mkdir -p binary
+          cd ../.. && rm binary/*
           cp tmp/compile/*.srs binary/
           rm -r tmp
           ls -l binary
 
-      - name: Commit Binary Format
+      - name: Check and Commit
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          git commit -m "Update binary format srs" -a
+          if git diff --cached --exit-code; then
+            echo "changes=false" >> $GITHUB_ENV
+          else
+            echo "changes=true" >> $GITHUB_ENV
+            git commit -m "Update binary format srs" -a
+          fi
 
       - name: Push
+        if: env.changes == 'true'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
