@@ -11,6 +11,8 @@
           "rules": [
             {
               "process_name": [
+                "TeamSpeak",
+                "TeamSpeak.exe",
                 "ts3client_linux_amd64",
                 "ts3client_win64.exe"
               ]
@@ -22,8 +24,10 @@
         },
         {
           "domain_suffix": [
-            ".teamspeak.com",
-            ".myteamspeak.com"
+            "teamspeak.com",
+            ".myteamspeak.com",
+            ".teamspeak-services.com",
+            ".tmspk.net"
           ],
           "invert": true
         }
