@@ -48,15 +48,14 @@ jobs:
 
       - name: HTTP DNS
         run: |
-          mv httpdns/ruleset/HTTPDNS.Block.yaml httpdns/ruleset/httpdns.yaml
-          cp httpdns/ruleset/httpdns.yaml tmp/convert/
+          cp httpdns/ruleset/HTTPDNS.Block.yaml tmp/convert/httpdns-block.yaml
           rm -r httpdns
 
       - name: IP Attribution
         run: |
           cd ip-attr/generated
           for file in rule-provider-*; do
-            newname="${file/rule-provider-/ip-attribution-}"
+            newname="${file/rule-provider-/ip_attribution-}"
             mv "$file" "$newname"
           done
           cd ../..
