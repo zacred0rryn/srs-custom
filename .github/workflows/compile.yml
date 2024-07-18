@@ -21,10 +21,10 @@ jobs:
       - name: Download and Set up sing-box
         run: |
           mkdir -p tmp/compile
-          wget -O sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.8.0-alpha.1/sing-box-1.8.0-alpha.1-linux-amd64.tar.gz
+          wget -O sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.10.0-alpha.22/sing-box-1.10.0-alpha.22-linux-amd64.tar.gz
           tar zxvf sing-box.tar.gz && rm sing-box.tar.gz
-          mv sing-box-1.8.0-alpha.1-linux-amd64/sing-box ./tmp/compile
-          rm -r sing-box-1.8.0-alpha.1-linux-amd64
+          mv sing-box-1.10.0-alpha.22-linux-amd64/sing-box ./tmp/compile
+          rm -r sing-box-1.10.0-alpha.22-linux-amd64
 
       - name: Compile with sing-box
         run: |
