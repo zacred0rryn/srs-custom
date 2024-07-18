@@ -7,7 +7,7 @@ def convert_yaml_to_json(yaml_file, json_file):
     yaml_data = yaml.safe_load(yf)
 
   json_data = {
-    "version": 1,
+    "version": 2,
     "rules": [
       {
         "domain": [item.split(',')[1] for item in yaml_data['payload'] if item.startswith('DOMAIN,')],
