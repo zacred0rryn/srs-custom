@@ -11,7 +11,7 @@ def convert_yaml_to_json(yaml_file, json_file):
     "rules": [
       {
         "domain": [item.split(',')[1] for item in yaml_data['payload'] if item.startswith('DOMAIN,')],
-        "domain_suffix": ['.' + item.split(',')[1] for item in yaml_data['payload'] if item.startswith('DOMAIN-SUFFIX,')],
+        "domain_suffix": [item.split(',')[1] for item in yaml_data['payload'] if item.startswith('DOMAIN-SUFFIX,')],
         "ip_cidr": [item.split(',')[1] for item in yaml_data['payload'] if item.startswith(('IP-CIDR,', 'IP-CIDR6,'))]
       }
     ]
