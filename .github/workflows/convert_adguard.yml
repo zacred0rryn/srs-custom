@@ -1,0 +1,58 @@
+name: Pull and Convert AdGuard Type SRS
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 0"
+
+jobs:
+  pull-and-convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'zacred0rryn/srs-custom'
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Download and Set Up sing-box
+        run: |
+          mkdir -p tmp/convert
+          wget -O sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/download/v1.10.0-alpha.25/sing-box-1.10.0-alpha.25-linux-amd64.tar.gz
+          tar zxvf sing-box.tar.gz && rm sing-box.tar.gz
+          cp sing-box-1.10.0-alpha.25-linux-amd64/sing-box tmp/convert/
+          rm -r sing-box-1.10.0-alpha.25-linux-amd64
+
+      - name: Pull AdGuard DNS Filter Lists
+        run: |
+          wget -O tmp/convert/AdGuardDNSFilter.txt https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+          wget -O tmp/convert/CHN_anti-AD.txt https://anti-ad.net/easylist.txt
+
+      - name: Convert with sing-box
+        run: |
+          cd tmp/convert
+          for file in *.txt; do
+            ./sing-box rule-set convert "$file" --output "${file%.txt}.srs" --type adguard
+          done
+          cd ../.. && rm binary/adguard/*
+          cp tmp/convert/*.srs binary/adguard/
+          rm -r tmp && ls -l binary/adguard
+
+      - name: Check and Commit
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          if git diff --cached --exit-code; then
+            echo "changes=false" >> $GITHUB_ENV
+          else
+            echo "changes=true" >> $GITHUB_ENV
+            git commit -m "Update adguard type srs" -a
+          fi
+
+      - name: Push
+        if: env.changes == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

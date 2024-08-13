@@ -67,8 +67,7 @@ jobs:
           cd tmp/convert && python ./convert.py && cd ../..
           mkdir -p source
           cp tmp/convert/*.json source/
-          rm -r tmp
-          ls -l source
+          rm -r tmp && ls -l source
 
       - name: Check and Commit
         run: |
