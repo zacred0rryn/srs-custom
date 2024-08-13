@@ -34,7 +34,7 @@ jobs:
           for file in *.txt; do
             ./sing-box rule-set convert "$file" --output "${file%.txt}.srs" --type adguard
           done
-          cd ../.. && rm binary/adguard/*
+          cd ../.. && rm -r binary/adguard && mkdir -p binary/adguard
           cp tmp/convert/*.srs binary/adguard/
           rm -r tmp && ls -l binary/adguard
 
