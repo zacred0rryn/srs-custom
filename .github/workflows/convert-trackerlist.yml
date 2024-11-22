@@ -1,0 +1,70 @@
+name: Fetch and Convert Trackerlists
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: 'zacred0rryn/srs-custom'
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/checkout@v4
+        with:
+          repository: 'zacred0rryn/srs-custom'
+          ref: 'scripts'
+          path: '_scripts'
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Set Up
+        run: |
+          mkdir -p source tmp
+          cp _scripts/fetch_convert-trackerlist.py tmp/
+
+      - name: Fetch and Convert
+        run: |
+          cd tmp && python ./fetch_convert-trackerlist.py && cd ..
+          cp tmp/*.json source/
+
+      - name: Clean Up
+        run: |
+          rm -r tmp _*
+          ls -l source
+
+      - name: Check and Commit
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          if git diff --cached --exit-code; then
+            echo "changes=false" >> $GITHUB_ENV
+          else
+            echo "changes=true" >> $GITHUB_ENV
+            git commit -m "actions: Update source format srs of trackers" -a
+          fi
+
+      - name: Push
+        if: env.changes == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      - name: Trigger Compilation
+        if: env.changes == 'true'
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/zacred0rryn/srs-custom/actions/workflows/compile.yml/dispatches \
+            -d '{"ref":"main"}'
