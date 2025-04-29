@@ -48,7 +48,8 @@
                 "api.xiaoheihe.cn",
                 "zonai.skland.com",
                 "druidv6.if.qidian.com",
-                "ptlogin6.qidian.com"
+                "ptlogin6.qidian.com",
+                "api.wmpvp.com"
             ],
             "domain_suffix": [
                 "biliapi.net",
@@ -73,6 +74,7 @@
                 "music.126.net",
                 "laiqukankan.com",
                 "music.ntes53.netease.com",
+                "music.163.com.163jiasu.com",
                 "lofter.com",
                 "douyucdn.cn",
                 "douyu.com",
@@ -170,6 +172,10 @@
                 "59.111.160.195/32",
                 "59.111.19.33/32",
                 "59.111.19.53/32",
+                "119.36.90.80/32",
+                "111.48.137.146/32",
+                "1.95.21.35/32",
+                "47.100.127.239/32",
                 "49.233.242.15/32",
                 "81.70.124.99/32",
                 "81.70.125.19/32",
