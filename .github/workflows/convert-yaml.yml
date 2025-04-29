@@ -28,7 +28,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          repository: 'zacred0rryn/anti-ip-attribution'
+          repository: 'SunsetMkt/anti-ip-attribution'
           path: '_ip-attr'
 
       - name: Set Up Python
@@ -57,7 +57,7 @@ jobs:
             mv "$file" "$newname"
           done
           cd ../..
-          cp _ip-attr/generated/* tmp/
+          cp _ip-attr/generated/ip_attribution-* tmp/
 
       - name: Convert
         run: |
