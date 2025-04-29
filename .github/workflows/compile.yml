@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: 'zacred0rryn/srs-custom'
+          repository: ${{ github.repository }}
           persist-credentials: false
           fetch-depth: 0
 
