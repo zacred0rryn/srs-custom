@@ -49,7 +49,9 @@
                 "zonai.skland.com",
                 "druidv6.if.qidian.com",
                 "ptlogin6.qidian.com",
-                "api.wmpvp.com"
+                "api.wmpvp.com",
+                "bbs.mobileapi.hupu.com",
+                "cmt.ithome.com"
             ],
             "domain_suffix": [
                 "biliapi.net",
