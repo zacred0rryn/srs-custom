@@ -26,7 +26,6 @@ jobs:
       - name: Fetch AdGuard DNS Filter Lists
         run: |
           wget -O tmp/convert/AdGuardDNSFilter.txt https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
-          wget -O tmp/convert/CHN_anti-AD.txt https://anti-ad.net/easylist.txt
 
       - name: Convert with sing-box
         run: |
